@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: "reference",
-  description: "reference",
+  title: "开源人",
+  description: "开源人的小站",
   lang: "zh-Hans",
   base: '/'
 })
