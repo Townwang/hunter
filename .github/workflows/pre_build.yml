@@ -24,10 +24,11 @@ jobs:
       - name: 上传 dist 到阿里云 ECS
         uses: easingthemes/ssh-deploy@v4
         with:
-          # 必须使用全大写的参数名
+          # 这三个是必填参数，必须写！
           SSH_PRIVATE_KEY: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.ECS_HOST }}
           REMOTE_USER: ${{ secrets.ECS_USER }}
+          # 以下是可选参数
           REMOTE_PORT: 22
           SOURCE: "docs/.vitepress/dist/"
           TARGET: "/home/vitepress/dist"
