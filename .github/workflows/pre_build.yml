@@ -20,14 +20,14 @@ jobs:
         run: |
           npm install
           npm run docs:build
-
-      - name: 上传dist到阿里云ECS
-        uses: easingthemes/ssh-deploy@v4
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
-          ARGS: "-r --delete"
-          SOURCE: "docs/.vitepress/dist/"
-          REMOTE_HOST: ${{ secrets.ECS_HOST }}
-          REMOTE_USER: ${{ secrets.ECS_USER }}
-          REMOTE_TARGET: "/home/vitepress/dist"
-  
+     - name: 上传dist到阿里云ECS
+       uses: easingthemes/ssh-deploy@v4
+       with:
+         SSH_PRIVATE_KEY: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
+         REMOTE_HOST: ${{ secrets.ECS_HOST }}
+         REMOTE_USER: ${{ secrets.ECS_USER }}
+         REMOTE_PORT: 22
+         SOURCE: "docs/.vitepress/dist/"
+         REMOTE_TARGET: "/home/vitepress/dist"
+         ARGS: "-r --delete"
+         SSH_CMD_ARGS: "-o StrictHostKeyChecking=no"
