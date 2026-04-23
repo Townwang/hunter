@@ -23,17 +23,14 @@ jobs:
 
       - name: 上传 dist 到阿里云 ECS
         uses: easingthemes/ssh-deploy@v4
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
         with:
-          REMOTE_HOST: ${{ secrets.ECS_HOST }}
-          REMOTE_USER: ${{ secrets.ECS_USER }}
-          REMOTE_PORT: 22
-          # 本地打包产物目录
-          SOURCE: "docs/.vitepress/dist/"
-          # ECS 目标目录
-          REMOTE_TARGET: "/home/vitepress/dist"
-          # 递归上传 + 删除远端多余文件
-          ARGS: "-avz --delete"
-          # 跳过 known_hosts 询问
-          SSH_CMD_ARGS: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+          # 这里改成 action 要求的驼峰式参数名
+          sshPrivateKey: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
+          remoteHost: ${{ secrets.ECS_HOST }}
+          remoteUser: ${{ secrets.ECS_USER }}
+          remotePort: 22
+          source: "docs/.vitepress/dist/"
+          # 这里把 REMOTE_TARGET 改成 TARGET
+          target: "/home/vitepress/dist"
+          args: "-avz --delete"
+          sshCmdArgs: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
