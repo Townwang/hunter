@@ -1,47 +1,39 @@
 ---
-layout: page
+layout: home
+
+hero:
+  name: 开源项目
+  tagline:  "专注原创开源项目与知识分享"
+  actions:
+    - theme: brand
+      text: 微信公众号
+      link: /pages/account
+    - theme: brand
+      text: 开源项目
+      link: /pages/project
+  image:
+    src: /ape.svg
+features:
+  - icon:
+      src: /feature/one.png
+    title: 开源项目
+    details: "探索实战型开源项目，汲取来自真实开发场景的精炼经验。"
+
+  - icon:
+      src: /feature/two.png
+    title: 优质软件
+    details: "发现精心筛选、简洁可靠的开发者软件与实用工具。"
+
+  - icon:
+      src: /feature/three.png
+    title: 暂无
+    details: "正在思考..."
+ 
+  - icon:
+      src: /feature/four.png
+    title: 开发者文章
+    details: "实用技巧、编程干货与可落地思路，助力开发者持续进阶。"
+
 ---
-<script setup>
-import {
-  VPTeamPage,
-  VPTeamPageTitle,
-  VPTeamMembers,
-  VPTeamPageSection
-} from 'vitepress/theme'
 
-const coreMembers = [ 
-	{
-		avatar: 'https://github.com/townwang.png',
-		name: 'Townwang',
-		title: 'Mobile Developer',
-		links: [
-		  { icon: 'github', link: 'https://github.com/townwang' },
-		  { icon: 'twitter', link: 'https://twitter.com/townwang' }
-		]
-	},
-	{
-		avatar: 'https://github.com/icbk.png',
-		name: 'icbk',
-		title: 'Api Developer',
-		links: [
-		  { icon: 'github', link: 'https://github.com/icbk' }
-		]
-	}
-  ]
-const partners = [	
-	
-	]
-</script>
 
-<VPTeamPage>
-  <VPTeamPageTitle>
-    <template #title>Our Team</template>
-  </VPTeamPageTitle>
-  <VPTeamMembers size="medium" :members="coreMembers" />
-  <VPTeamPageSection>
-    <template #title>Partners</template>
-    <template #members>
-      <VPTeamMembers size="small" :members="partners" />
-    </template>
-  </VPTeamPageSection>
-</VPTeamPage>
