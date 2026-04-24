@@ -19,7 +19,7 @@ export default defineConfig({
     },
     footer: {
       message: '基于 MIT 协议开源发布',
-      copyright: "版权所有  © 2012-2026 <a href='https://beian.miit.gov.cn/'>陕ICP备2026009491号-1</a> · 专注开源"
+      copyright: "版权所有 © 2026 <a href='https://beian.miit.gov.cn/'>陕ICP备2026009491号-1</a>"
     }
   }
 })
