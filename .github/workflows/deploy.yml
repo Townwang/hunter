@@ -7,6 +7,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    # 关键：指定使用 ecs 环境，加载 Secrets
+    environment: ecs
     steps:
       - name: 拉取代码
         uses: actions/checkout@v4
@@ -22,18 +24,19 @@ jobs:
           npm install
           npm run docs:build
 
-      - name: 通过 SCP 上传打包产物到 ECS
-        uses: appleboy/scp-action@master
+      - name: 上传打包产物到 ECS
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.ECS_HOST }}
           username: ${{ secrets.ECS_USER }}
           key: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
-          # 关键：适配你的 .townwang 目录打包路径
           source: ".townwang/.vitepress/dist/*"
           target: ${{ secrets.ECS_WEB_DIR }}
+          rm: true # 上传前清空目标目录
+          debug: true # 开启调试日志
 
-      - name: ECS 部署后清理&权限（可选）
-        uses: appleboy/ssh-action@master
+      - name: 部署后权限修复（可选）
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.ECS_HOST }}
           username: ${{ secrets.ECS_USER }}
@@ -41,3 +44,4 @@ jobs:
           script: |
             cd ${{ secrets.ECS_WEB_DIR }}
             chmod -R 755 .
+            echo "✅ 部署完成！"
