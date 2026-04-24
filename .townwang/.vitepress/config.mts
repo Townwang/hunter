@@ -15,7 +15,7 @@ export default defineConfig({
       { text: '主页', link: '/' }
     ],
     sitemap: {
-      hostname: 'https://townwang.com'
+      hostname: 'https://hunter.wang'
     },
     footer: {
       message: '基于 MIT 协议开源发布',
