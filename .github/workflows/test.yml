@@ -1,0 +1,8 @@
+- name: 测试 SSH 连接
+  uses: appleboy/ssh-action@v1.0.3
+  with:
+    host: ${{ secrets.ECS_HOST }}
+    username: ${{ secrets.ECS_USER }}
+    key: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
+    script: |
+      echo "✅ SSH 连接成功！当前目录：$(pwd)"
