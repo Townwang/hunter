@@ -11,7 +11,7 @@ jobs:
       - name: 测试 SSH 连接
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.ECS_HOST }}
+          host: 47.99.37.171
           username: ${{ secrets.ECS_USER }}
           key: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
           script: |
