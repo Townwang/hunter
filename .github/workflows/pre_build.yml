@@ -1,6 +1,5 @@
 name: Deploy VitePress to Aliyun ECS
 
-# 触发时机：推送到 main 分支就自动部署
 on:
   push:
     branches: [ main ]
@@ -21,9 +20,19 @@ jobs:
       - name: 安装依赖 & 打包 VitePress
         run: |
           npm install
-          npm run build
+          npm run docs:build
 
-      - name: 通过 SSH 部署到阿里云 ECS
+      - name: 通过 SCP 上传打包产物到 ECS
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.ECS_HOST }}
+          username: ${{ secrets.ECS_USER }}
+          key: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
+          # 关键：适配你的 .townwang 目录打包路径
+          source: ".townwang/.vitepress/dist/*"
+          target: ${{ secrets.ECS_WEB_DIR }}
+
+      - name: ECS 部署后清理&权限（可选）
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.ECS_HOST }}
@@ -31,14 +40,4 @@ jobs:
           key: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
           script: |
             cd ${{ secrets.ECS_WEB_DIR }}
-            # 清空旧文件
-            rm -rf *
-            # 把本地打包好的 dist 传到 ECS 站点目录
-      - name: 上传打包产物到 ECS
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.ECS_HOST }}
-          username: ${{ secrets.ECS_USER }}
-          key: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
-          source: "docs/.vitepress/dist/*"
-          target: ${{ secrets.ECS_WEB_DIR }}
+            chmod -R 755 .
