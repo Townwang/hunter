@@ -17,4 +17,4 @@ jobs:
           script: |
             echo "✅ SSH 连接成功！当前目录: $(pwd)"
             echo "✅ host = ${{ secrets.ECS_HOST }}"
-            echo "✅ key = ${{ secrets.ECS_SSH_PRIVATE_KEY }}"
+            echo "✅ web地址 = ${{ secrets.ECS_WEB_DIR }}"
