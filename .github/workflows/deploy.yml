@@ -7,7 +7,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    # 关键：指定使用 ecs 环境，加载 Secrets
     environment: ecs
     steps:
       - name: 拉取代码
@@ -30,18 +29,21 @@ jobs:
           host: ${{ secrets.ECS_HOST }}
           username: ${{ secrets.ECS_USER }}
           key: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
+          # 改成你实际 vitepress 打包 dist 路径
           source: ".townwang/.vitepress/dist/*"
-          target: ${{ secrets.ECS_WEB_DIR }}
-          rm: true # 上传前清空目标目录
-          debug: true # 开启调试日志
+          # 用绝对路径，强制不进 /root
+          target: /home/vitepress/html
+          rm: true
+          debug: true
 
-      - name: 部署后权限修复（可选）
+      - name: 修复权限 根治500
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.ECS_HOST }}
           username: ${{ secrets.ECS_USER }}
           key: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
           script: |
-            cd ${{ secrets.ECS_WEB_DIR }}
-            chmod -R 755 .
-            echo "✅ 部署完成！"
+            mkdir -p /home/vitepress/html
+            sudo chown -R www-data:www-data /home/vitepress/html
+            sudo chmod -R 755 /home/vitepress/html
+            echo "✅ 部署完成，权限已修复"
