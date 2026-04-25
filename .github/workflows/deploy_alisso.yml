@@ -18,11 +18,9 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm install
-
+        run: npm ci
       - name: Build VitePress
         run: npm run docs:build
-
       - name: Upload to Ali OSS
         env:
           OSS_ACCESS_KEY_ID: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
