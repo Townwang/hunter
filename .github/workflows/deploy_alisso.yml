@@ -18,7 +18,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Build VitePress
         run: npm run docs:build
@@ -28,5 +28,5 @@ jobs:
           OSS_ACCESS_KEY_ID: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
           OSS_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
           OSS_BUCKET: ${{ secrets.ALIYUN_OSS_BUCKET }}
-          OSS_REGION: ${{ secrets.ALIYUN_OSS_REGION }}
+          OSS_REGION: ${{ secrets. }}
         run: npm run docs:oss
