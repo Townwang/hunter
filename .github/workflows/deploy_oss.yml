@@ -3,20 +3,18 @@ name: Deploy VitePress to Ali OSS
 on:
   push:
     branches: [main, master]
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: oss
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-
       - name: Install dependencies
         run: npm ci
       - name: Build VitePress
