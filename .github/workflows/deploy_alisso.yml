@@ -7,31 +7,46 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: sso
+    environment: oss
     steps:
       - name: 拉取代码
         uses: actions/checkout@v4
+
       - name: 安装 Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
+
       - name: 安装依赖 & 打包 VitePress
         run: |
           npm install
           npm run docs:build
-      # 安装阿里云 ossutil
-      - name: 安装 ossutil
+
+      # 安装阿里云 ossutil 并配置凭证
+      - name: 安装 ossutil 并配置
         run: |
           wget https://gosspublic.alicdn.com/ossutil/1.7.16/ossutil64
           chmod +x ossutil64
           ./ossutil64 config \
-            -i ${{ secrets.ALIYUN_ACCESS_KEY_ID }} \
-            -k ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }} \
-            -e ${{ secrets.ALIYUN_OSS_REGION }}.aliyuncs.com
+            -i "${{ secrets.ALIYUN_ACCESS_KEY_ID }}" \
+            -k "${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}" \
+            -e "${{ secrets.ALIYUN_OSS_REGION }}.aliyuncs.com" \
+            -L CH
+        env:
+          # 确保 secrets 能被正确注入，避免空值导致的参数错误
+          ALIYUN_ACCESS_KEY_ID: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
+          ALIYUN_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
+          ALIYUN_OSS_REGION: ${{ secrets.ALIYUN_OSS_REGION }}
+
       # 同步 VitePress 打包产物到 OSS 根目录
       - name: 同步文件到阿里云 OSS
         run: |
-          # 本地dist目录 同步到 OSS 根目录
-          ./ossutil64 sync .townwang/.vitepress/dist/ oss://${{ secrets.ALIYUN_OSS_BUCKET }}/ \
+          # 先验证dist目录是否存在，避免路径错误
+          if [ ! -d "./.townwang/.vitepress/dist" ]; then
+            echo "❌ 错误：dist 目录不存在，请检查 docs:build 命令输出"
+            exit 1
+          fi
+          # 本地dist目录 同步到 OSS 根目录，--delete 删除远端多余文件，--force 跳过确认
+          ./ossutil64 sync "./.townwang/.vitepress/dist/" "oss://${{ secrets.ALIYUN_OSS_BUCKET }}/" \
             --delete --force

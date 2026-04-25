@@ -23,27 +23,27 @@ jobs:
           npm install
           npm run docs:build
 
-      - name: 上传打包产物到 ECS
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.ECS_HOST }}
-          username: ${{ secrets.ECS_USER }}
-          key: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
+#      - name: 上传打包产物到 ECS
+#        uses: appleboy/scp-action@v0.1.7
+ #       with:
+  #        host: ${{ secrets.ECS_HOST }}
+   #       username: ${{ secrets.ECS_USER }}
+    #      key: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
           # 改成你实际 vitepress 打包 dist 路径
-          source: ".townwang/.vitepress/dist/*"
+#          source: ".townwang/.vitepress/dist/*"
           # 用绝对路径，强制不进 /root
-          target: /home/vitepress/html
-          rm: true
-          debug: true
+ #         target: /home/vitepress/html
+  #        rm: true
+   #       debug: true
 
-      - name: 修复权限 根治500
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.ECS_HOST }}
-          username: ${{ secrets.ECS_USER }}
-          key: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
-          script: |
-            mkdir -p /home/vitepress/html
-            sudo chown -R www-data:www-data /home/vitepress/html
-            sudo chmod -R 755 /home/vitepress/html
-            echo "✅ 部署完成，权限已修复"
+    #  - name: 修复权限 根治500
+     #   uses: appleboy/ssh-action@v1.0.3
+#        with:
+#          host: ${{ secrets.ECS_HOST }}
+#          username: ${{ secrets.ECS_USER }}
+#          key: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
+#⇝          script: |
+#            mkdir -p /home/vitepress/html
+#            sudo chown -R www-data:www-data /home/vitepress/html
+#            sudo chmod -R 755 /home/vitepress/html
+#            echo "✅ 部署完成，权限已修复"
