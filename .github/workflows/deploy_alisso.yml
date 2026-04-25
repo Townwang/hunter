@@ -7,7 +7,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: oss
+    environment: sso
     steps:
       - name: 拉取代码
         uses: actions/checkout@v4
@@ -23,18 +23,25 @@ jobs:
           npm install
           npm run docs:build
 
-      # 修复DNS解析问题 + 安装并配置ossutil
-      - name: 安装 ossutil 并配置（修复DNS）
+      # 安装 ossutil + 强制配置DNS + 调试变量
+      - name: 安装 ossutil 并配置
         run: |
-          # 1. 配置公共DNS，解决GitHub Actions解析阿里云域名失败问题
+          # 1. 强制配置公共DNS，避免系统默认DNS问题
           echo "nameserver 223.5.5.5" | sudo tee /etc/resolv.conf > /dev/null
           echo "nameserver 8.8.8.8" | sudo tee -a /etc/resolv.conf > /dev/null
-          
-          # 2. 下载ossutil并赋予执行权限
+
+          # 2. 调试：打印关键变量，检查是否为空
+          echo "OSS_REGION: ${{ secrets.ALIYUN_OSS_REGION }}"
+          echo "OSS_BUCKET: ${{ secrets.ALIYUN_OSS_BUCKET }}"
+          echo "ACCESS_KEY_ID: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}"
+          echo "完整Endpoint: https://${{ secrets.ALIYUN_OSS_REGION }}.aliyuncs.com"
+          echo "完整Bucket域名: ${{ secrets.ALIYUN_OSS_BUCKET }}.${{ secrets.ALIYUN_OSS_REGION }}.aliyuncs.com"
+
+          # 3. 下载并赋予ossutil执行权限
           wget https://gosspublic.alicdn.com/ossutil/1.7.16/ossutil64
           chmod +x ossutil64
-          
-          # 3. 配置ossutil，强制使用HTTPS协议，避免解析问题
+
+          # 4. 配置ossutil（强制使用HTTPS，避免解析问题）
           ./ossutil64 config \
             -i "${{ secrets.ALIYUN_ACCESS_KEY_ID }}" \
             -k "${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}" \
@@ -44,16 +51,22 @@ jobs:
           ALIYUN_ACCESS_KEY_ID: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
           ALIYUN_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
           ALIYUN_OSS_REGION: ${{ secrets.ALIYUN_OSS_REGION }}
+          ALIYUN_OSS_BUCKET: ${{ secrets.ALIYUN_OSS_BUCKET }}
 
-      # 同步文件到阿里云 OSS
+      # 同步文件到阿里云 OSS（带调试）
       - name: 同步文件到阿里云 OSS
         run: |
-          # 验证打包产物目录是否存在
+          # 1. 验证打包产物目录
           if [ ! -d "./.townwang/.vitepress/dist" ]; then
             echo "❌ 错误：打包产物目录不存在，请检查 docs:build 命令"
             exit 1
           fi
-          
-          # 执行同步，--delete 删除远端多余文件，--force 跳过确认
+
+          # 2. 调试：直接用curl测试域名解析
+          curl -v "https://${{ secrets.ALIYUN_OSS_REGION }}.aliyuncs.com" || true
+          nslookup ${{ secrets.ALIYUN_OSS_REGION }}.aliyuncs.com || true
+          nslookup ${{ secrets.ALIYUN_OSS_BUCKET }}.${{ secrets.ALIYUN_OSS_REGION }}.aliyuncs.com || true
+
+          # 3. 执行同步
           ./ossutil64 sync "./.townwang/.vitepress/dist/" "oss://${{ secrets.ALIYUN_OSS_BUCKET }}/" \
             --delete --force
