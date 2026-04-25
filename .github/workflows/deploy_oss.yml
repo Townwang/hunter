@@ -23,5 +23,5 @@ jobs:
           OSS_ACCESS_KEY_ID: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
           OSS_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
           OSS_BUCKET: ${{ secrets.ALIYUN_OSS_BUCKET }}
-          OSS_REGION: ${{ secrets. }}
+          OSS_REGION: ${{ secrets.ALIYUN_OSS_REGION }}
         run: npm run docs:oss
