@@ -1,6 +1,7 @@
 {
   "devDependencies": {
-    "vitepress": "^1.6.4"
+    "vitepress": "^1.6.4",
+    "ali-oss": "^6.18.0"
   },
   "scripts": {
     "docs:dev": "vitepress dev .townwang",
