@@ -5,6 +5,7 @@
   "scripts": {
     "docs:dev": "vitepress dev .townwang",
     "docs:build": "vitepress build .townwang",
-    "docs:preview": "vitepress preview .townwang"
+    "docs:preview": "vitepress preview .townwang",
+    "docs:oss": "node scripts/oss-upload.js"
   }
 }
