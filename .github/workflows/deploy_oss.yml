@@ -2,7 +2,7 @@ name: Deploy VitePress to Ali OSS
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
 jobs:
   build:
     runs-on: ubuntu-latest
