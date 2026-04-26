@@ -5,7 +5,14 @@ export default defineConfig({
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
-    ['meta', { name: 'keywords', content: '开源人,开源项目,原创开源,开源工具,免费开源,开源技术分享' }]
+    ['meta', { name: 'keywords', content: '开源人,开源项目,原创开源,开源工具,免费开源,开源技术分享' }],
+    ['link', {
+       rel: 'preload',
+       href: 'https://oss.hunter.wang/assets/inter-roman-latin.Di8DUHzh.woff2',
+       as: 'font',
+       type: 'font/woff2',
+       crossorigin: 'anonymous'
+     }]
   ],
   lang: 'zh',
   description: "开源人博客，专注分享个人原创开源项目、提供干净免费的开源资源，做纯粹的开源技术分享。",
