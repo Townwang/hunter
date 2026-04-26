@@ -1,0 +1,261 @@
+:root {
+  --vp-c-brand-1: #228be6;
+  --vp-c-brand-2: #228be6;
+  --vp-c-brand-3: #228be6;
+  --vp-c-text-2: #666666;
+  --vp-c-text-3: #999999;
+  --vp-c-text-4: #f39c12;
+  --vp-c-bg-1: #EEEEEE;
+  --vp-c-bg-2: #FFFFFF;
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(
+    120deg,
+    #004399 30%,
+    #228be6
+  );
+  --vp-home-hero-image-background-image: linear-gradient(
+    -45deg,
+    #00996659
+  );
+  --vp-home-hero-image-filter: blur(44px);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --vp-home-hero-image-filter: blur(56px);
+  }
+}
+
+@media (min-width: 960px) {
+  :root {
+    --vp-home-hero-image-filter: blur(68px);
+  }
+}
+
+.VPHero .VPImage {
+  filter: drop-shadow(-2px 4px 6px rgba(0, 0, 0, 0.2));
+  padding: 18px;
+}
+
+.verifyContainer {
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.verifyContainer-title {
+  margin-top: 0;
+  color: var(--vp-c-text-1);
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.verifyContainer-input {
+  padding: 0.75rem 1rem;
+  width: 280px;
+  border: 1px solid var(--verify-input-border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-bg-2);
+  transition: border-color 0.2s ease;
+}
+
+.verifyContainer-input:focus {
+  border-color: var(--vp-c-brand-1);
+  outline: none;
+  background: var(--vp-c-bg-2);
+}
+
+.verifyContainer-btn {
+  padding: 0.75rem 2rem;
+  background: var(--vp-c-brand-1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 1;
+  font-size: 0.95rem;
+  font-weight: 500;
+  width: 280px;
+}
+
+.verifyContainer-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+.verifyContainer-error {
+  color: var(--vp-c-danger-1);
+  margin: 0;
+  font-size: 0.85rem;
+  min-height: 1.2rem;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.resource-content {
+  text-align: center;
+}
+
+.download-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 2rem; 
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.download-feature-card {
+  padding: 1.5rem;
+  padding-top: 2.5rem;
+  border-radius: 8px;
+  background: var(--vp-c-bg-alt);
+  transition: transform 0.2s ease;
+  position: relative;
+  padding-bottom: 4rem;
+}
+
+.download-feature-card:hover {
+  transform: translateY(-4px);
+}
+
+.download-version-badge {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  padding: 0.2rem 0.6rem !important; 
+  font-size: 0.75rem !important;
+}
+
+.download-feature-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  color: var(--vp-c-text-1);
+  text-align: left;
+  font-weight: 700; 
+}
+
+.download-feature-desc {
+  margin: 0 0 1rem;
+  color: var(--vp-c-text-2);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.download-feature-btn {
+  position: absolute;
+  bottom: 0rem;
+  right: 0rem;
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  border-top-left-radius:50px;
+  border-bottom-right-radius:8px;
+  border-bottom-left-radius:8px;
+  border-color: var(--vp-c-brand);
+  border-style:solid;
+  border-width: 1px;
+  color: var(--vp-c-brand);
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: none;
+}
+
+.download-logout-btn {
+   margin-top: 1rem;
+   padding: 0.5rem 1.2rem;
+   background-color: var(--vp-c-bg-alt);
+   color: var(--vp-c-text-4);
+   border-radius: 6px;
+   font-size: 0.8rem;
+   cursor: pointer;
+   transition: all 0.2s;
+ }
+
+.tip-alert {
+  padding: 1rem;
+  margin: 1rem 2rem;
+  border-radius: 4px;
+  background: var(--vp-c-bg-soft);
+  border-left: 4px solid var(--vp-c-brand-1);
+}
+
+.tip-account {
+  color: var(--vp-c-brand);
+}
+.daily-password {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: var(--vp-c-bg-soft);
+  border-radius: 8px;
+}
+.password {
+  font-weight: 700;
+  color: var(--vp-c-brand-1);
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 768px) {
+.verifyContainer {
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+  .download-features {
+    grid-template-columns: 1fr;
+    padding: 1rem 1.5rem;
+  }
+  .download-feature-card {
+    padding: 1rem;
+    padding-top: 2rem; 
+    padding-bottom: 3.5rem;
+  }
+  .download-version-badge {
+    top: 1rem;
+    right: 1rem;
+    padding: 0.15rem 0.5rem !important;
+    font-size: 0.7rem !important;
+  }
+  .download-feature-btn {
+    bottom: 0rem;
+    right: 0rem;
+  }
+  .download-logout-btn {
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}
+
+.copyright a[href*="beian.mps.gov.cn"]::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: url('../beian.png') no-repeat center;
+  background-size: contain;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+

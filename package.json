@@ -4,9 +4,9 @@
     "ali-oss": "^6.18.0"
   },
   "scripts": {
-    "docs:dev": "vitepress dev .townwang",
-    "docs:build": "vitepress build .townwang",
-    "docs:preview": "vitepress preview .townwang",
-    "docs:oss": "node scripts/oss_upload.js"
+    "docs:dev": "vitepress dev .hunter",
+    "docs:build": "vitepress build .hunter",
+    "docs:preview": "vitepress preview .hunter",
+    "docs:oss": "node ./.hunter/.vitepress/theme/scripts/oss_upload.js"
   }
 }

@@ -30,7 +30,7 @@ jobs:
    #       username: ${{ secrets.ECS_USER }}
     #      key: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
           # 改成你实际 vitepress 打包 dist 路径
-#          source: ".townwang/.vitepress/dist/*"
+#          source: ".hunter/.vitepress/dist/*"
           # 用绝对路径，强制不进 /root
  #         target: /home/vitepress/html
   #        rm: true
