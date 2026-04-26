@@ -248,7 +248,7 @@
 }
 
 .copyright a[href*="beian.mps.gov.cn"]::before {
-  content: '';
+  content: '备案';
   display: inline-block;
   width: 16px;
   height: 16px;
