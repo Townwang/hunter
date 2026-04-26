@@ -7,7 +7,7 @@ const accessKeySecret = process.env.OSS_ACCESS_KEY_SECRET;
 const bucket = process.env.OSS_BUCKET;
 const region = process.env.OSS_REGION;
 
-// 关键：手动拼接公网 Endpoint，不让 SDK 自动解析域名
+// 手动拼接公网 Endpoint
 const endpoint = `oss-${region}.aliyuncs.com`;
 
 const client = new OSS({
@@ -15,15 +15,17 @@ const client = new OSS({
   accessKeySecret,
   bucket,
   region,
-  endpoint,        // 手动指定，绕过 SDK 自动域名解析
+  endpoint,
   secure: true,
   timeout: 120000,
-  keepAlive: false,// 关闭长连接，解决 Actions 网络池 DNS 缓存问题
-  agent: false     // 禁用内置 HTTP 代理，走系统 DNS
+  keepAlive: false,
+  agent: false
 });
 
-// 你的 VitePress 打包目录不变
 const localDir = path.resolve(__dirname, '../.townwang/.vitepress/dist');
+
+// 记录上传失败的文件数
+let failCount = 0;
 
 async function uploadDir(dir, prefix = '') {
   const files = fs.readdirSync(dir);
@@ -38,6 +40,7 @@ async function uploadDir(dir, prefix = '') {
         console.log(`上传: ${fullPath} → ${ossKey}`);
         await client.put(ossKey, fullPath);
       } catch (e) {
+        failCount++;
         console.error(`⚠️ 上传失败 ${ossKey}：`, e.message);
       }
     }
@@ -47,9 +50,16 @@ async function uploadDir(dir, prefix = '') {
 (async () => {
   try {
     await uploadDir(localDir);
-    console.log('✅ VitePress 全部上传 OSS 完成');
+
+    // 判断是否有失败文件
+    if (failCount > 0) {
+      console.error(`❌ 上传完成，但有 ${failCount} 个文件上传失败`);
+      process.exit(1);
+    } else {
+      console.log('✅ VitePress 全部上传 OSS 完成，无失败文件');
+    }
   } catch (err) {
-    console.error('❌ 整体上传任务失败：', err);
+    console.error('❌ 整体上传任务异常失败：', err);
     process.exit(1);
   }
 })();
