@@ -22,7 +22,7 @@ const client = new OSS({
   agent: false
 });
 
-const localDir = path.resolve(__dirname, '../.townwang/.vitepress/dist');
+const localDir = path.resolve(__dirname, '../.hunter/.vitepress/dist');
 
 // 记录上传失败的文件数
 let failCount = 0;
