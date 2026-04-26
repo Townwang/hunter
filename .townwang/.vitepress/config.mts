@@ -19,8 +19,7 @@ export default defineConfig({
     },
     footer: {
       message: '基于 MIT 协议开源发布',
-      copyright: `
-         版权所有 © 2026 
+      copyright: ` 版权所有 © 2026 
          <a href="https://beian.miit.gov.cn/" rel="noreferrer" target="_blank">陕ICP备2026009491号-1</a>
          <br>
          <a href="https://beian.mps.gov.cn/#/query/webSearch?code=61011302002413" rel="noreferrer" target="_blank">陕公网安备61011302002413号</a>`
