@@ -247,7 +247,7 @@
   }
 }
 
-.vp-footer a[href*="beian.mps.gov.cn"]::before {
+.copyright a[href*="beian.mps.gov.cn"]::before {
   content: '';
   display: inline-block;
   width: 16px;
