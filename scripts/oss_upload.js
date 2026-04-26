@@ -1,3 +1,6 @@
+// 顶部强制指定 DNS 解析优先级，修复 GitHub Actions DNS 问题
+process.env.NODE_DNS_ORDER = 'system';
+
 const OSS = require('ali-oss');
 const fs = require('fs');
 const path = require('path');
@@ -5,10 +8,9 @@ const path = require('path');
 const accessKeyId = process.env.OSS_ACCESS_KEY_ID;
 const accessKeySecret = process.env.OSS_ACCESS_KEY_SECRET;
 const bucket = process.env.OSS_BUCKET;
-// 必须是标准地域：oss-cn-hangzhou / oss-cn-shanghai 这种
 const region = process.env.OSS_REGION;
 
-// 手动固定公网 endpoint，不再让SDK自动拼
+// 关键：手动拼接公网 Endpoint，不让 SDK 自动解析域名
 const endpoint = `${bucket}.${region}.aliyuncs.com`;
 
 const client = new OSS({
@@ -16,13 +18,14 @@ const client = new OSS({
   accessKeySecret,
   bucket,
   region,
-  endpoint,
+  endpoint,        // 手动指定，绕过 SDK 自动域名解析
   secure: true,
   timeout: 120000,
-  keepAlive: false, // 关键：关闭长连接，规避DNS缓存问题
-  agent: false      // 禁用内置http代理，走系统DNS
+  keepAlive: false,// 关闭长连接，解决 Actions 网络池 DNS 缓存问题
+  agent: false     // 禁用内置 HTTP 代理，走系统 DNS
 });
 
+// 你的 VitePress 打包目录不变
 const localDir = path.resolve(__dirname, '../.townwang/.vitepress/dist');
 
 async function uploadDir(dir, prefix = '') {
@@ -36,11 +39,9 @@ async function uploadDir(dir, prefix = '') {
       const ossKey = `${prefix}${file}`;
       try {
         console.log(`上传: ${fullPath} → ${ossKey}`);
-        await client.put(ossKey, fullPath, {
-          timeout: 120000
-        });
+        await client.put(ossKey, fullPath);
       } catch (e) {
-        console.error(`⚠️ 单个文件上传失败 ${ossKey}`, e.message);
+        console.error(`⚠️ 上传失败 ${ossKey}：`, e.message);
       }
     }
   }
@@ -49,9 +50,9 @@ async function uploadDir(dir, prefix = '') {
 (async () => {
   try {
     await uploadDir(localDir);
-    console.log('✅ VitePress 已全部上传到阿里云OSS');
+    console.log('✅ VitePress 全部上传 OSS 完成');
   } catch (err) {
-    console.error('❌ 上传失败：', err);
+    console.error('❌ 整体上传任务失败：', err);
     process.exit(1);
   }
 })();
