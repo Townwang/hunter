@@ -7,6 +7,6 @@
     "docs:dev": "vitepress dev .hunter",
     "docs:build": "vitepress build .hunter",
     "docs:preview": "vitepress preview .hunter",
-    "docs:oss": "node ./.hunter/.vitepress/theme/scripts/oss_upload.js"
+    "docs:oss": "node .hunter/.vitepress/theme/scripts/oss_upload.js"
   }
 }
