@@ -23,9 +23,7 @@ export default defineConfig({
          版权所有 © 2026 
          <a href="https://beian.miit.gov.cn/" rel="noreferrer" target="_blank">陕ICP备2026009491号-1</a>
          <br>
-         <a href="https://beian.mps.gov.cn/#/query/webSearch?code=61011302002413" rel="noreferrer" target="_blank">
-         <img src="beian.png" alt="公安备案" style="margin-right: 4px; width: 16px; height: 16px;"/>
-         陕公网安备61011302002413号</a>`
+         <a href="https://beian.mps.gov.cn/#/query/webSearch?code=61011302002413" rel="noreferrer" target="_blank">陕公网安备61011302002413号</a>`
     }
   }
 })
