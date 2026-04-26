@@ -1,6 +1,18 @@
-async function openWechat(biz = "MjM5ODU3NjMxMA==") {
+---
+layout: home
+hero:
+  name: 
+  text:
+---
+
+# 微信跳转测试
+
+<button @click="openWechat('MzA4NTY4ODUzOQ==')">打开对应公众号</button>
+
+<script setup>
+async function openWechat(biz) {
   try {
-    // 动态拼接 __biz
+    // 动态拼接接口地址 + biz
     const api = `https://mp.weixin.qq.com/mp/jumptoweixin?uin=&key=&pass_ticket=&wxtoken=777&devicetype=&clientversion=false&version=false&__biz=${biz}&appmsg_token=&x5=0&f=json&user_article_role=0`
 
     const body = new URLSearchParams({
@@ -8,7 +20,6 @@ async function openWechat(biz = "MjM5ODU3NjMxMA==") {
       click_type: 'mp-common-profile'
     })
 
-    // 补齐原版完整请求头
     const res = await fetch(api, {
       method: 'POST',
       headers: {
@@ -20,7 +31,6 @@ async function openWechat(biz = "MjM5ODU3NjMxMA==") {
         "Sec-Fetch-Site": "same-origin",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Dest": "empty",
-        "Accept-Encoding": "gzip, deflate",
         "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
         "Cookie": "rewardsn=; wxtokenkey=777",
         "Referer": "https://mp.weixin.qq.com/s/CR8SXflDvw6qzer1r0HbAA"
@@ -29,15 +39,14 @@ async function openWechat(biz = "MjM5ODU3NjMxMA==") {
     })
 
     const data = await res.json()
-    const weixinScheme = data.url
-
-    if (weixinScheme) {
-      window.location.href = weixinScheme
+    if (data.url) {
+      window.location.href = data.url
     } else {
-      alert('获取微信跳转链接失败')
+      alert('获取跳转链接失败，请换手机浏览器/微信打开')
     }
   } catch (err) {
-    console.error('出错：', err)
-    alert('请求失败，请在手机微信/手机浏览器打开')
+    console.error('跳转出错：', err)
+    alert('请求跨域或失败，请在手机微信内置浏览器打开')
   }
 }
+</script>
