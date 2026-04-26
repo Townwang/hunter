@@ -24,7 +24,7 @@ export default defineConfig({
          <a href="https://beian.miit.gov.cn/" rel="noreferrer" target="_blank">陕ICP备2026009491号-1</a>
          <br>
          <a href="https://beian.mps.gov.cn/#/query/webSearch?code=61011302002413" rel="noreferrer" target="_blank">
-         <img src="beian.png" alt="公安备案" style="vertical-align: middle; margin-right: 4px; width: 16px; height: 16px;">
+         <img src="beian.png" alt="公安备案" style="vertical-align: middle; margin-right: 4px; width: 16px; height: 16px;"/>
          陕公网安备61011302002413号</a>`
     }
   }
