@@ -2,19 +2,27 @@ const OSS = require('ali-oss');
 const fs = require('fs');
 const path = require('path');
 
+const accessKeyId = process.env.OSS_ACCESS_KEY_ID;
+const accessKeySecret = process.env.OSS_ACCESS_KEY_SECRET;
+const bucket = process.env.OSS_BUCKET;
+// 必须是标准地域：oss-cn-hangzhou / oss-cn-shanghai 这种
+const region = process.env.OSS_REGION;
+
+// 手动固定公网 endpoint，不再让SDK自动拼
+const endpoint = `${bucket}.${region}.aliyuncs.com`;
+
 const client = new OSS({
-  accessKeyId: process.env.OSS_ACCESS_KEY_ID,
-  accessKeySecret: process.env.OSS_ACCESS_KEY_SECRET,
-  bucket: process.env.OSS_BUCKET,
-  // 修正：使用正确的 Region，比如 oss-cn-hangzhou
-  region: process.env.OSS_REGION, 
-  // 不要手动拼接 endpoint，让 SDK 自动生成
-  // endpoint: 这里删掉你之前手动拼接的内容
-  secure: true, // 强制 HTTPS
-  timeout: 60000
+  accessKeyId,
+  accessKeySecret,
+  bucket,
+  region,
+  endpoint,
+  secure: true,
+  timeout: 120000,
+  keepAlive: false, // 关键：关闭长连接，规避DNS缓存问题
+  agent: false      // 禁用内置http代理，走系统DNS
 });
 
-// 已适配你的目录：.townwang/.vitepress/dist
 const localDir = path.resolve(__dirname, '../.townwang/.vitepress/dist');
 
 async function uploadDir(dir, prefix = '') {
@@ -28,7 +36,9 @@ async function uploadDir(dir, prefix = '') {
       const ossKey = `${prefix}${file}`;
       try {
         console.log(`上传: ${fullPath} → ${ossKey}`);
-        await client.put(ossKey, fullPath);
+        await client.put(ossKey, fullPath, {
+          timeout: 120000
+        });
       } catch (e) {
         console.error(`⚠️ 单个文件上传失败 ${ossKey}`, e.message);
       }
