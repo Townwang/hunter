@@ -247,15 +247,3 @@
   }
 }
 
-.copyright a[href*="beian.mps.gov.cn"]::before {
-  content: '备案';
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  background: url('../beian.png') no-repeat center;
-  background-size: contain;
-  margin-right: 4px;
-  vertical-align: middle;
-}
-
-
