@@ -1,6 +1,3 @@
-// 顶部强制指定 DNS 解析优先级，修复 GitHub Actions DNS 问题
-process.env.NODE_DNS_ORDER = 'system';
-
 const OSS = require('ali-oss');
 const fs = require('fs');
 const path = require('path');
@@ -11,7 +8,7 @@ const bucket = process.env.OSS_BUCKET;
 const region = process.env.OSS_REGION;
 
 // 关键：手动拼接公网 Endpoint，不让 SDK 自动解析域名
-const endpoint = `${bucket}.${region}.aliyuncs.com`;
+const endpoint = `oss-${region}.aliyuncs.com`;
 
 const client = new OSS({
   accessKeyId,
