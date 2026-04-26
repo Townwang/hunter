@@ -19,7 +19,8 @@ export default defineConfig({
   themeConfig: {
     logo: { src: '/logo.svg', width: 24, height: 24 },
     nav: [
-      { text: '主页', link: '/' }
+      { text: '主页', link: '/' },
+      { text: '邮箱', link: 'https://mail.hunter.wang' }
     ],
     sitemap: {
       hostname: 'https://hunter.wang'
